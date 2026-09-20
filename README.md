@@ -2,30 +2,28 @@
 
 Taskin Rahman - corpus: `campus_life`
 
-> **This file is your submission.** Fill it in as you go — most sections get
-> written during the milestone that produces them, not at the end.
->
-> How the starter works, and every command you'll need, is in `RUNNING.md`.
-> Leave that file alone.
->
-> **Paste everything as text.** No screenshots, no video. A typed table gets
-> full credit; a picture of the same table gets none.
->
-> Delete these instruction blocks as you replace them. The `<!-- -->` comments
-> are notes to you and don't show up when the page renders — you can leave them
-> or remove them.
-
 ---
 
 # Unit 1
 
 ## What This Does
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
+This is a question answering system built on `campus_life`, a corpus of 88
+short student posts about one university. The posts cover dining halls, dorm
+buildings, courses and the administrative rules nobody explains properly,
+written the way students actually talk about them rather than the way a course
+catalog would.
 
-     Milestone 5. -->
+You ask it a plain question like "when is the best time to do laundry in Old
+Brewhouse" or "how many hours a week does CS 210 take" and it finds the
+closest chunks of text, answers from those alone, and names the file it used.
+If nothing close enough comes back it says it does not have enough information
+instead of guessing.
+
+It handles specific questions about a named thing well, since almost every
+fact in this corpus lives in one short post. It handles comparisons between
+two buildings or two dining halls less well, because that needs two documents
+at once and the system was not built for it.
 
 ## Chunking Strategy
 
@@ -188,18 +186,30 @@ time, which is worth knowing.
 
 ## How I Used AI
 
-<!-- Two specific moments. For each: what you asked for, what came back, and
-     what you changed about it.
+**1. Designing the chunker.** I asked Claude what to do about chunking, given
+that the starter had produced 88 chunks from 88 documents and never cut
+anything. It suggested splitting on paragraph breaks, and then pointed out the
+problem with doing that here, which is that my documents name their subject
+only in the title line and then switch to "the machines are old". With eight
+near identical laundry documents in the corpus, a split chunk would be
+ambiguous between eight buildings. It gave me the choice of splitting with the
+title copied onto every chunk or leaving one post as one chunk, and I chose to
+split. I also made it measure my documents before picking a number, which is
+where 300 came from rather than a round 500.
 
-     "I asked Claude to write the chunking function from my notes. It ignored
-     the overlap, so I added that myself" is the level of detail we're after.
-     "I used AI to help me code" is not.
+**2. Setting the relevance cutoff.** I asked where the cutoff should go given
+my two groups of distances. The first answer pointed at the midpoint of my gap,
+0.61, which is almost exactly the starter's default. That was not the number I
+kept. Testing vaguer questions than the five I had written showed that "is the
+food any good" comes back at 0.656 and "do i need a car here" at 0.718, both
+with the correct document at rank 1, so a cutoff of 0.6 would refuse questions
+it could answer. The cutoff went to 0.75.
 
-     Milestone 5. -->
-
-**1.**
-
-**2.**
+I also had Claude draft the write ups in this README and cut most of them back.
+The chunking section came back with a comparison table, a paragraph on what
+might be wrong with my numbers, and an explanation of the option I did not
+take. I removed about two thirds of it, because the milestone asks for the
+size, the overlap and the reason, and the rest was padding.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
