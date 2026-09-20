@@ -75,44 +75,33 @@ overlapped.
 
 ## 4. Chunks stand on their own
 
-For 5 sampled chunks: none begins or ends mid-sentence, and each one names its
-own subject — the hall, course, dining hall, or office it is about — inside
-the chunk text, without relying on a neighbouring chunk. Target: 5 of 5 on
-both.
+For 5 sampled chunks: none begins or ends mid-sentence, and each names its own
+subject — the hall, course, or office it is about — inside the chunk text.
+Target: 5 of 5 on both.
 
-**Why this target:** When I read the documents in Milestone 1, almost every
-one of them opens with a title line that is the only place the subject is
-named — "Laundry in Old Brewhouse", "Workload for CS 210 Data Structures" —
-and then switches to bare pronouns: "the machines are old", "it's
-front-loaded". The corpus also has near-identical documents for eight housing
-buildings and eight dining halls, so a chunk that says "best time is Tuesday
-or Wednesday morning" without the building name is not just vague, it is
-genuinely ambiguous between eight buildings and will be retrieved for the
-wrong one. That makes subject-naming the thing worth counting here, more than
-chunk length. I set 5 of 5 rather than 4 of 5 because the documents average
-around 300 characters — most of them should fit in one chunk and keep their
-title line for free, so even one orphaned chunk means my split is cutting in
-the wrong place.
+**Why this target:** The corpus has eight near-identical housing documents and
+eight dining ones, and only the title line says which is which — after that
+they switch to "the machines are old". A chunk that loses that line is
+ambiguous between eight buildings, not just vague. I set 5 of 5 because the
+documents average around 300 characters, so most should fit in one chunk and
+keep their title for free; even one orphaned chunk means I'm cutting in the
+wrong place.
 
 ---
 
 ## 5. The named source is the right source
 
-For all 5 of my test questions, the document the answer names is a document
-that actually contains the fact stated in the answer, checked by reading the
-file. Target: 5 of 5.
+For all 5 of my test questions, the document the answer names actually
+contains the fact stated in the answer, checked by opening the file.
+Target: 5 of 5.
 
 **Why this target:** Criterion 2 only asks whether a source is printed, and a
-confidently wrong citation passes it. That is the failure I actually care
-about, because the whole promise of this system is "here is where I got it"
-— an answer with the wrong filename attached is worse than no answer, since
-someone would go read the wrong document and trust it. My corpus gives the
-model plenty of chances to get it wrong: the dining halls each have a `_followup.txt`
-that repeats the same figures as the main file, and five chunks go into every
-prompt, so the model has several plausible-looking files to pick from and only
-some of them say what it just said. I set 5 of 5 because, unlike retrieval, there is no hard case here — every
-filename is sitting in the prompt right next to the text it belongs to, so
-attaching the wrong one is a grounding failure, not bad luck.
+confidently wrong citation passes it — which is worse than no answer, since
+someone would go read the wrong file and trust it. Each dining hall has a
+`_followup.txt` repeating the main file's figures, so the model has plausible
+wrong filenames to choose from in every prompt. I set 5 of 5 because every
+filename sits in the prompt next to its own text, so picking the wrong one is
+a grounding failure, not bad luck.
 
 ---
 
