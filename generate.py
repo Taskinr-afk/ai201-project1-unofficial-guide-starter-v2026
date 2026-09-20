@@ -279,6 +279,8 @@ Rules:
 - Use only the information in the documents below. Do not use anything you know from elsewhere.
 - If the documents don't cover the question, say you don't have enough information. Do not guess.
 - Name the document your answer came from, using the filename given in each excerpt.
+- Name only the excerpt the fact actually came from. Several excerpts will look relevant and repeat each other, and some will be about a different building or course with the same kind of content. If you did not take anything from an excerpt, do not name it.
+- If you are saying you don't have enough information, do not name a source.
 - Be brief. Two or three sentences is usually enough."""
 
 

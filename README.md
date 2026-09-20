@@ -113,30 +113,78 @@ Laundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building
 
 ## Sample Answer
 
-<!-- One complete question and answer, pasted as text, with the source line
-     visible. Milestone 4. -->
-
-**Question:**
+**Question:** If I live in Fenwick Court, is the campus shuttle reliable?
 
 **Answer:**
 
 ```
+  retrieved 4 chunks
+  (best distance 0.393, cutoff 0.75)
+
+If you live in Fenwick Court, the campus shuttle stop outside your building
+is the one that gets skipped when the driver is behind schedule
+(transit_shuttle.txt). Additionally, the published timetable is optimistic by
+about five minutes in the morning (transit_shuttle.txt).
+
+Source: transit_shuttle.txt
+
+Sources retrieved: housing_fenwick_court.txt, housing_fenwick_court_noise.txt,
+transit_shuttle.txt, transit_walking.txt
 ```
 
-**My relevance cutoff:**
+I picked this one because I wrote it in Milestone 2 expecting it to fail. The
+fact that answers it is one clause buried in a document about shuttles, and
+three other documents have Fenwick Court in the filename, so I thought those
+would crowd it out. It came back at rank 1 instead. Splitting
+`transit_shuttle.txt` on its paragraph break put the Fenwick sentence in a
+chunk of its own, which is the chunker from Milestone 3 fixing a problem I had
+written down before I built it.
 
-<!-- The number you set in config.py, and how you got there.
+**My relevance cutoff:** 0.75
 
-     You ran five questions your corpus covers and the five in OUT_OF_SCOPE
-     that it clearly doesn't, and wrote down the best distance for each. What
-     did those two groups look like? Where was the gap? Put the actual numbers
-     here — the table below wants all ten rows.
+My five questions came back between 0.180 and 0.393. The five in
+`OUT_OF_SCOPE` came back between 0.825 and 0.934. That is a gap of 0.43 with
+nothing at all inside it, so almost any number in the middle would pass both
+tests and the midpoint of 0.61 looked like the obvious answer.
 
-     Milestone 4. -->
+I went higher than that because my five questions are not what a real student
+types. I wrote them knowing what was in the corpus, so they use the same words
+the documents use. When I tried vaguer versions, "is the food any good" came
+back at 0.656 and "do i need a car here" at 0.718, both with the right
+document at rank 1. A cutoff of 0.6 refuses both of those. 0.75 answers them
+and still sits 0.075 below the nearest out-of-scope question.
+
+What I get wrong at 0.75 is near misses, meaning questions about campus that
+my documents happen not to answer. "Is there a gym on campus?" comes back at
+0.570 and gets through the gate. The grounding instruction has to catch those,
+and when I tested it, it did, but that is the model's judgement rather than my
+code's and it is the part I would test hardest in unit 2.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| How late in the term can I declare a course pass/fail, and what grade counts as a pass? | yes | 0.221 |
+| How long is the lunch wait at Kestrel Commons between 12:15 and 1:00? | yes | 0.180 |
+| When is the best time to do laundry in Old Brewhouse? | yes | 0.325 |
+| How many hours a week outside class does CS 210 take? | yes | 0.300 |
+| If I live in Fenwick Court, is the campus shuttle reliable? | yes | 0.393 |
+| What is the capital of Mongolia? | no | 0.825 |
+| How do I change the oil in a diesel engine? | no | 0.934 |
+| Who won the 1994 World Cup? | no | 0.886 |
+| What is the recommended dosage of ibuprofen for a headache? | no | 0.849 |
+| How do I write a for loop in Rust? | no | 0.891 |
+
+**Top-k:** left at 5. The document holding the answer came back at rank 1 for
+all five of my questions, so pulling back fewer would not have lost anything
+and pulling back more would only add near identical documents about other
+buildings.
+
+**Grounding:** I added two rules to `GROUNDING_INSTRUCTION` in `generate.py`.
+The first tells the model to name only the excerpt the fact came from, because
+my corpus pairs most dining halls with a followup document that repeats the
+same numbers, and criterion 5 is about citing the right file rather than just
+citing something. The second tells it not to name a source when it is
+refusing. The first one works. The second one gets ignored about half the
+time, which is worth knowing.
 
 ## How I Used AI
 

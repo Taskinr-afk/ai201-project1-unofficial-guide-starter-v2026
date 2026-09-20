@@ -67,9 +67,16 @@ worries me: `health_center.txt` is in the corpus and talks about walk-in hours
 and urgent problems, so a medical question has something to be near without
 having anything to be answered by. That is exactly the kind of near-miss that
 sits on the wrong side of a single global cutoff. One allowed failure is for
-that question. I'll record the actual distance spread when I set the cutoff in
-Milestone 4 and note here whether the two groups separated cleanly or
-overlapped.
+that question.
+
+**Measured in Milestone 4:** the two groups separated cleanly, and my worry
+about the ibuprofen question was wrong. It came back at 0.849, the second
+furthest of the five rather than the nearest. In-corpus questions ran 0.180 to
+0.393 and out-of-corpus ran 0.825 to 0.934, so there is a gap of 0.43 with
+nothing in it and the cutoff of 0.75 refuses all five. The near misses I
+should have worried about are questions about campus that my documents happen
+not to cover, like "Is there a gym on campus?" at 0.570, and those are not in
+`OUT_OF_SCOPE` at all, so this criterion does not test them.
 
 ---
 

@@ -50,7 +50,18 @@ TOP_K = 5               # how many chunks to pull back per question
 # 0.6 is a reasonable starting point, not a right answer. Milestone 4 has you
 # measure your own two groups of distances and put the cutoff in the gap.
 # Most corpora land somewhere between 0.45 and 0.75.
-THRESHOLD = 0.6
+#
+# Measured on campus_life in Milestone 4. My five test questions came back
+# between 0.180 and 0.393. The five OUT_OF_SCOPE questions came back between
+# 0.825 and 0.934. That is a gap of 0.43 with nothing in it, so the midpoint
+# of 0.61 was tempting and wrong.
+#
+# What moved me off it was trying vaguer questions a real student would
+# actually type. "is the food any good" lands at 0.656 and "do i need a car
+# here" at 0.718, both with the correct document at rank 1. A cutoff of 0.6
+# refuses those. 0.75 answers them and still leaves 0.075 of margin under the
+# nearest out-of-scope question.
+THRESHOLD = 0.75
 
 
 # ─── Models ──────────────────────────────────────────────────────────────────
