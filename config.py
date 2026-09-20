@@ -27,8 +27,15 @@ CORPUS = os.getenv("AI201_CORPUS", "campus_life")
 # These are deliberately plain, generic numbers. Milestone 3 is where you
 # replace them with numbers that fit the documents you actually read.
 
-CHUNK_SIZE = 800        # characters per chunk
-CHUNK_OVERLAP = 120     # characters shared between neighbouring chunks
+CHUNK_SIZE = 300        # soft target: start a new chunk past this, at the
+                        # next paragraph break. Never cuts mid-paragraph, so a
+                        # long paragraph can overshoot it.
+CHUNK_OVERLAP = 0       # no character overlap. Paragraph breaks are already
+                        # clean cuts, so there is no half-sentence to rescue.
+                        # What every chunk *does* repeat is its title line —
+                        # see MIN_CHUNK_SIZE and chunker.py::split_documents.
+MIN_CHUNK_SIZE = 120    # anything shorter gets merged back into its neighbour,
+                        # so the pipeline can't emit a stray fragment.
 
 
 # ─── Retrieval (Milestone 4) ─────────────────────────────────────────────────

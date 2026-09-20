@@ -29,53 +29,86 @@ Taskin Rahman - corpus: `campus_life`
 
 ## Chunking Strategy
 
-**Chunk size:**
-**Overlap:**
+**Chunk size:** 300 characters, as a target rather than a hard limit. A chunk
+closes once adding the next paragraph would take it past 300, and it never
+cuts inside a paragraph.
 
-<!-- What about YOUR documents made you pick these numbers? Short posts and
-     long sectioned guides don't want the same chunking, and "800 seemed
-     reasonable" earns nothing. Point at something you noticed when you read
-     the documents in Milestone 1.
+**Overlap:** none, except that every chunk repeats its document's title line.
 
-     If you changed your mind partway through, say so and say why. That's worth
-     more than pretending you got it right first time.
+The starter cuts at 800 characters and my longest document is 549, so it never
+cut anything and I got 88 chunks out of 88 documents. My documents average 317
+characters.
 
-     Milestone 3. -->
+I split them because some posts hold two unrelated things. The Kestrel Commons
+post covers wait times in one paragraph and then opening hours in the next, so
+a question about closing time was matching a chunk that was half about salad
+bars.
+
+I copy the title line onto every chunk because that is the only place these
+documents name their subject. After the first line they switch to words like
+"the machines are old". My corpus has eight housing buildings and eight dining
+halls that read almost identically, so a chunk about laundry with no title on
+it could belong to any of them.
+
+Chunks only break at blank lines, so nothing starts or ends mid sentence.
+Anything under 120 characters gets merged back into the chunk before it so I
+never get a stray fragment.
+
+This gave me 99 chunks instead of 88, averaging 285 characters. Only 11 of my
+88 documents were long enough to split.
 
 ## Sample Chunks
 
-<!-- Five chunks, pasted as text. Label each one and name the file it came from
-     AND the function that produced it — the grader checks your code against
-     what you claim here.
+The five that `python app.py chunks -n 5` printed. Chunks 4 and 5 are numbered
+`#1`, which means their document was split, and both still name their subject
+in the first line.
 
-     `python app.py chunks -n 5` prints all three for you. Copy them straight
-     across.
-
-     Milestone 3. -->
-
-**Chunk 1** — source: `` — produced by: ``
+**Chunk 1**, from `admin_add_drop_deadline.txt#0`, produced by `chunker.py::split_documents`
 
 ```
+On the add/drop deadline
+
+You can add a course through the end of the second week. Dropping is a longer window — through the end of week six — but a drop after week two shows as a W on your transcript. Nothing anywhere on the registrar's site says this plainly, and students find out from each other.
 ```
 
-**Chunk 2** — source: `` — produced by: ``
+**Chunk 2**, from `course_biol_160_exams.txt#0`, produced by `chunker.py::split_documents`
 
 ```
+BIOL 160 Cell Biology — assessment
+
+Four unit tests and a cumulative final. Not curved.
+
+The unit tests come fast, roughly every three weeks; falling behind once is very hard to recover from.
 ```
 
-**Chunk 3** — source: `` — produced by: ``
+**Chunk 3**, from `course_math_220.txt#0`, produced by `chunker.py::split_documents`
 
 ```
+MATH 220 Linear Algebra
+
+I lived here my sophomore year. Format is chalk-and-talk lecture, weekly problem sets marked for correctness. Assessment: two midterms and a cumulative final. Curved to a b- median.
+
+Expect 6 to 8 hours a week, almost all of it on problem sets.
+
+The one piece of advice: the problem sets are the course; the lectures make sense afterwards rather than during.
 ```
 
-**Chunk 4** — source: `` — produced by: ``
+**Chunk 4**, from `dining_the_atrium_followup.txt#1`, produced by `chunker.py::split_documents`
 
 ```
+Re: The Atrium
+
+Also worth saying: picked clean by 1:15 and not restocked again until the next morning. Nobody tells you this at orientation.
 ```
 
-**Chunk 5** — source: `` — produced by: ``
+**Chunk 5**, from `housing_innisfree_hall.txt#1`, produced by `chunker.py::split_documents`
 
 ```
+Innisfree Hall — what it's actually like
+
+The bad: no air conditioning, which matters for the first three weeks of September.
+
+Laundry costs $1.75 wash, $1.75 dry, app-based. On noise: moderate; the building is L-shaped and the short wing is much quieter.
 ```
 
 ## Sample Answer
